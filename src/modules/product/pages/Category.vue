@@ -6,9 +6,9 @@
           <div class="box" v-show="selectedFilters.length > 0">
             <div class="box-filters">
               <div class="box-filters__header">
-                <span class="box-filters__title">filters</span>
+                <span class="box-filters__title">Filters</span>
                 <a class="box-filters__clear" @click.prevent="removeAll"
-                  >remove all</a
+                  >Clear</a
                 >
               </div>
               <ul class="box-filters__ul">
@@ -105,7 +105,10 @@
               >
                 Colors
               </div>
-              <div class="box__filter" v-show="isColorOpen">
+              <div
+                class="box__filter"
+                v-show="isColorOpen"
+              >
                 <div class="box__content-container">
                   <div class="box__content">
                     <ul class="box__ul">
@@ -161,7 +164,7 @@
               <span class="ui-switcher__slider">
                 <span class="ui-switcher__toggle"></span>
               </span>
-              only in stock
+              Only in stock
             </label>
           </div>
         </div>
@@ -181,7 +184,7 @@
           <div class="products">
             <router-link
               :to="{ name: 'Product', params: { id: item.id } }"
-              v-for="(item) in products"
+              v-for="item in products"
               :key="item.id"
               class="products__item"
             >

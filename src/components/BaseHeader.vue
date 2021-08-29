@@ -20,32 +20,30 @@
               <li class="navbar__item">
                 <router-link
                   :to="{ name: 'Home' }"
-                  class="navbar__link navbar__link--is-active"
+                  class="navbar__link"
+                  :class="
+                    $route.name === 'Home' ? 'navbar__link--is-active' : ''
+                  "
                   >Home</router-link
                 >
               </li>
-              <li class="navbar__item navbar__item--has-sub">
-                <a @click.prevent href="" class="navbar__link">Categories</a>
-                <ul class="navbar__subset">
-                  <li class="navbar__item">
-                    <router-link :to="{ name: 'Category' }" class="navbar__link"
-                      >Menu 1</router-link
-                    >
-                  </li>
-                  <li class="navbar__item">
-                    <router-link :to="{ name: 'Category' }" class="navbar__link"
-                      >Menu 2</router-link
-                    >
-                  </li>
-                  <li class="navbar__item">
-                    <router-link :to="{ name: 'Category' }" class="navbar__link"
-                      >Menu 3</router-link
-                    >
-                  </li>
-                </ul>
+              <li class="navbar__item">
+                <router-link
+                  :to="{ name: 'Category' }"
+                  class="navbar__link"
+                  :class="
+                    $route.name === 'Category' ? 'navbar__link--is-active' : ''
+                  "
+                  >Categories</router-link
+                >
               </li>
               <li class="navbar__item">
-                <router-link :to="{ name: 'About' }" class="navbar__link"
+                <router-link
+                  :to="{ name: 'About' }"
+                  class="navbar__link"
+                  :class="
+                    $route.name === 'About' ? 'navbar__link--is-active' : ''
+                  "
                   >About us</router-link
                 >
               </li>
@@ -65,7 +63,9 @@
                 class="header__basket-icon"
                 @click="showDropDownBasket"
               ></span>
-              <span class="header__basket-count">{{ count }}</span>
+              <span class="header__basket-count" v-if="count !== 0">{{
+                count
+              }}</span>
               <div
                 class="header__dropdown"
                 :class="{ 'header__dropdown--is-active': isBasketDropDown }"
@@ -119,22 +119,8 @@
                 class="header__account-icon"
                 @click="showDropDownAccount"
               ></span>
-              <div
-                class="header__dropdown header__dropdown--w200"
-                :class="{ 'header__dropdown--is-active': isAccountDropDown }"
-              >
-                <div class="header__dropdown-content">
-                  <router-link
-                    :to="{ name: 'Login' }"
-                    class="header__account-link"
-                    >Login</router-link
-                  >
-                  <router-link
-                    :to="{ name: 'Register' }"
-                    class="header__account-link"
-                    >Register</router-link
-                  >
-                </div>
+              <div class="header__dropdown header__dropdown--w200">
+                <div class="header__dropdown-content"></div>
               </div>
             </div>
             <div
@@ -210,4 +196,15 @@ export default {
 }
 </script>
 
-<style></style>
+<style lang="scss">
+.navbar__link--is-active::before {
+  content: '';
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  bottom: -5px;
+  left: calc(50% - 4px);
+  position: absolute;
+  background-color: rgba(116, 46, 138, 1);
+}
+</style>
