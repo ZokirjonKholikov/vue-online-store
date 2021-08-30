@@ -98,6 +98,7 @@
                       <button
                         @click="removeItem(item)"
                         type="button"
+                        
                         class="header__basket-remove"
                       >
                         remove
@@ -108,7 +109,7 @@
                     <router-link
                       :to="{ name: 'Cart' }"
                       class="btn btn--boxshadow btn--brand w--100"
-                      >complete order</router-link
+                      >Complete order</router-link
                     >
                   </div>
                 </div>
