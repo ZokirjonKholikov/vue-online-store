@@ -3,11 +3,7 @@
     <div class="cart__row">
       <div class="cart__image">
         <a href="" class="cart__image-link">
-          <img
-            :src="item.img"
-            alt=""
-            class="cart__image-img"
-          />
+          <img :src="item.img" alt="" class="cart__image-img" />
         </a>
       </div>
       <div class="cart__details">
@@ -19,9 +15,12 @@
             {{ item.name }}
           </router-link>
         </h5>
-        <p>Price: {{ formattedPrice(item.price) }}</p>
+        <p>
+          Price:
+          <span class="text-red"> {{ formattedPrice(item.price) }} </span>
+        </p>
         <div class="cart__deatils-code">
-          Quantity in cart :{{ item.quantity }}
+          Quantity in cart : <span class="text-blue">{{ item.quantity }}</span>
         </div>
       </div>
       <div class="cart__amounts">
