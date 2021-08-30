@@ -4,7 +4,7 @@
       <div class="cart__image">
         <a href="" class="cart__image-link">
           <img
-            :src="require(`@/assets/img/slider/${item.id}.jpg`)"
+            :src="item.img"
             alt=""
             class="cart__image-img"
           />

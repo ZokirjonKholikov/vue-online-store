@@ -59,7 +59,7 @@
           <div class="card">
             <div class="card__image">
               <img
-                :src="require(`@/assets/img/slider/${item.id}.jpg`)"
+                :src="item.img"
                 alt=""
                 class="card__img"
               />

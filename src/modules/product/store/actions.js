@@ -3,8 +3,19 @@ import { SET_PRODUCTS_MUTATIONS } from './types'
 
 export default {
   async getProducts(context, { text }) {
-    const { data } = await axios.get('https://gist.githubusercontent.com/Tefoh/57a0ef76ab63a974105b9f0fbcb8475b/raw/49357fb98c1c6dde9070fd1a7ec1e5d532c43141/products.json')
-    context.commit(SET_PRODUCTS_MUTATIONS, data)
+    
+
+    const { data } = await axios.get('https://jsonplaceholder.typicode.com/albums/1/photos')
+    console.log(data)
+    const newData = data.map(item => ({
+      id: item.id,
+      name: item.title.split(" ")[0],
+      img: item.url,
+      price: Math.floor((Math.random() * 1000)),
+      thumbnail: item.thumbnailUrl
+    }));
+    console.log(newData)
+    context.commit(SET_PRODUCTS_MUTATIONS, newData)
     context.dispatch('log', text)
   },
   log(ctx, payload) {

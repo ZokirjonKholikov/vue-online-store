@@ -33,61 +33,49 @@
                 :class="{ 'box--togglable': !isBrandOpen }"
                 @click="isBrandOpen = !isBrandOpen"
               >
-                Brands
+                Price
               </div>
               <div class="box__filter" v-show="isBrandOpen">
                 <div class="box__content-container">
                   <div class="box__content">
                     <ul class="box__ul">
                       <li class="box__li">
-                        <label
-                          class="ui-checkbox"
-                          data-fa="samsung"
-                          data-en="Sumsung"
-                          data-serach="Sumsung samsung"
-                        >
+                        <label class="ui-checkbox">
                           <input
                             type="checkbox"
                             class="ui-checkbox__input"
-                            value="samsung"
+                            value="$0 - $500"
                             v-model="selectedFilters"
+                            @change="setFilter(1)"
                           />
                           <span class="ui-checkbox__mark"></span>
-                          Samsung
+                          $0 - $500
                         </label>
                       </li>
                       <li class="box__li">
-                        <label
-                          class="ui-checkbox"
-                          data-fa="sony"
-                          data-en="sony"
-                          data-serach="sony sony"
-                        >
+                        <label class="ui-checkbox">
                           <input
                             type="checkbox"
                             class="ui-checkbox__input"
-                            value="sony"
+                            value="$500 - $800"
                             v-model="selectedFilters"
+                            @change="setFilter(2)"
                           />
                           <span class="ui-checkbox__mark"></span>
-                          Redmi
+                          $500 - $800
                         </label>
                       </li>
                       <li class="box__li">
-                        <label
-                          class="ui-checkbox"
-                          data-fa="apple"
-                          data-en="apple"
-                          data-serach="apple apple"
-                        >
+                        <label class="ui-checkbox">
                           <input
                             type="checkbox"
                             class="ui-checkbox__input"
-                            value="apple"
+                            value="$800+"
                             v-model="selectedFilters"
+                            @change="setFilter(3)"
                           />
                           <span class="ui-checkbox__mark"></span>
-                          Apple
+                          $800+
                         </label>
                       </li>
                     </ul>
@@ -96,7 +84,7 @@
               </div>
             </div>
           </div>
-          <div class="box">
+          <!-- <div class="box">
             <div class="box__row">
               <div
                 class="box__header"
@@ -105,10 +93,7 @@
               >
                 Colors
               </div>
-              <div
-                class="box__filter"
-                v-show="isColorOpen"
-              >
+              <div class="box__filter" v-show="isColorOpen">
                 <div class="box__content-container">
                   <div class="box__content">
                     <ul class="box__ul">
@@ -157,7 +142,7 @@
                 </div>
               </div>
             </div>
-          </div>
+          </div> -->
           <div class="box box--switcher">
             <label class="ui-switcher">
               <input type="checkbox" class="ui-switcher__input" />
@@ -184,17 +169,15 @@
           <div class="products">
             <router-link
               :to="{ name: 'Product', params: { id: item.id } }"
-              v-for="item in products"
+              v-for="item in filteredData.length !== 0
+                ? filteredData
+                : products"
               :key="item.id"
               class="products__item"
             >
               <div class="card">
                 <div class="card__image">
-                  <img
-                    :src="require(`@/assets/img/slider/${item.id}.jpg`)"
-                    alt=""
-                    class="card__img"
-                  />
+                  <img :src="item.thumbnail" alt="" class="card__img" />
                 </div>
                 <div class="card__title">
                   {{ item.name }}
@@ -204,7 +187,9 @@
                     formattedPrice(item.price)
                   }}</span>
                 </div>
-                <span class="card__discount">%6</span>
+                <span class="card__discount"
+                  >%{{ Math.floor(Math.random() * 15) }}</span
+                >
               </div>
             </router-link>
           </div>
@@ -223,15 +208,24 @@ export default {
   data: () => ({
     isBrandOpen: true,
     isColorOpen: true,
-    selectedFilters: []
+    selectedFilters: [],
+    filteredData: []
   }),
-
+  watch: {
+    selectedFilters: {
+      immediate: false,
+      handler() {
+        if (this.selectedFilters.length === 0) {
+          this.filteredData = this.products
+        }
+      }
+    }
+  },
   computed: {
     numberOne() {
       return 1
     },
     ...mapGetters('products', ['products']),
-    ...mapGetters('userName', { userName: 'name' })
   },
 
   methods: {
@@ -242,6 +236,35 @@ export default {
       this.selectedFilters = this.selectedFilters.filter(
         (item) => item !== filter
       )
+    },
+    setFilter(value) {
+      switch (value) {
+        case 1:
+          {
+            this.filteredData = this.products.filter((item) => item.price < 500)
+          }
+          break
+        case 2:
+          {
+            this.filteredData = this.products.filter(
+              (item) => item.price > 500 && item.price < 800
+            )
+          }
+          break
+        case 3:
+          {
+            this.filteredData = this.products.filter((item) => item.price > 800)
+          }
+          break
+
+        default:
+          this.filteredData = this.products
+          break
+      }
+    },
+    mounted() {
+      console.log(this.selectedFilters)
+      this.setFilter()
     },
     formattedPrice(price) {
       return new Intl.NumberFormat('en', {

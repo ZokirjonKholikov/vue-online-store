@@ -13,18 +13,18 @@
         <ul class="breadcrumb">
           <li class="breadcrumb__item breadcrumb__item--hide">
             <a href="" class="breadcrumb__link"
-              ><span class="breadcrumb__span">home</span></a
+              ><span class="breadcrumb__span">Home</span></a
             >
           </li>
           <li class="breadcrumb__item">
             <a href="" class="breadcrumb__link"
-              ><span class="breadcrumb__span">products</span></a
+              ><span class="breadcrumb__span">Products</span></a
             >
           </li>
           <li class="breadcrumb__item">
             <a href="" class="breadcrumb__link"
               ><span class="breadcrumb__span"
-                >product number {{ $route.params.id }}</span
+                >Product number {{ $route.params.id }}</span
               ></a
             >
           </li>
@@ -33,7 +33,7 @@
           <div class="product__header">
             <div class="product__expiration">
               <div class="count-down__timer" id="count-dowm__timer">
-                {{ diff }}
+                Product number {{ $route.params.id }}
               </div>
             </div>
             <div class="product__row">
@@ -91,9 +91,12 @@
                 </div>
               </div>
               <div class="product__left">
-                <div class="product__category">web category</div>
+                <div class="product__category">Web category</div>
                 <div class="product__info">
-                  <h1 class="product__title">{{ product?.name }}</h1>
+                  <div class="product__title">
+                    <h1 class="product__title">{{ product?.name }}</h1>
+                    <h2 class="product__title" style="margin-top:5px">${{ product?.price }}</h2>
+                  </div>
                   <div class="rating">
                     <div class="rating__star">
                       <span
@@ -122,12 +125,13 @@
                     <span class="rating__num">(65)</span>
                   </div>
                 </div>
+                <br>
                 <div>
                   <button
                     class="btn btn--boxshadow btn--brand"
                     @click="addItem(product)"
                   >
-                    add to cart
+                    Add to cart
                   </button>
                 </div>
                 <div class="controls"></div>
@@ -138,18 +142,14 @@
         <SwiperSlider v-if="products.length">
           <template v-slot:title> Related products </template>
           <router-link
-            :to="{ name: 'Product', params: { id: 1 } }"
+            :to="{ name: 'Product', params: { id: item.id } }"
             class="swiper-slide"
             v-for="item in products"
             :key="item.id"
           >
             <div class="card">
               <div class="card__image">
-                <img
-                  :src="require(`@/assets/img/slider/${item.id}.jpg`)"
-                  alt=""
-                  class="card__img"
-                />
+                <img :src="item.thumbnail" alt="" class="card__img" />
               </div>
               <div class="card__title2">{{ item.name }}</div>
               <div class="card__price">
@@ -219,6 +219,7 @@ import axios from 'axios'
 
 import { SET_PRODUCTS_MUTATIONS } from '@/modules/product/store/types'
 import { mapMutations, mapState, mapActions, mapGetters } from 'vuex'
+import { watch } from '@vue/runtime-core'
 
 export default {
   name: 'Product',
@@ -246,11 +247,11 @@ export default {
         { img: require('@/assets/img/slider/3.jpg') }
       ],
       ratings: [
-        { width: 100, title: 'awesome' },
-        { width: 80, title: 'good' },
-        { width: 60, title: 'normal' },
-        { width: 40, title: 'weak' },
-        { width: 20, title: 'bad' }
+        { width: 100, title: 'Awesome' },
+        { width: 80, title: 'Good' },
+        { width: 60, title: 'Normal' },
+        { width: 40, title: 'Weak' },
+        { width: 20, title: 'Bad' }
       ],
       slideIndex: 0,
       isShowingModal: false,
@@ -258,16 +259,8 @@ export default {
       rateWidth: 0,
       showRate: true,
       selectedColor: '',
-      colorsOptions: ['red', 'green', 'blue'],
+      colorsOptions: ['Red', 'Green', 'Blue'],
       selectedLang: [],
-      langOptions: [
-        { name: 'Vue.js', language: 'JavaScript' },
-        { name: 'Adonis', language: 'JavaScript' },
-        { name: 'Rails', language: 'Ruby' },
-        { name: 'Sinatra', language: 'Ruby' },
-        { name: 'Laravel', language: 'PHP' },
-        { name: 'Phoenix', language: 'Elixir' }
-      ],
       slides: [
         { img: require('@/assets/img/slideshow/1.png') },
         { img: require('@/assets/img/slideshow/2.png') },
@@ -336,11 +329,7 @@ export default {
     )
 
     if (!this.product) {
-      const { data } = await axios.get(
-        'https://gist.githubusercontent.com/Tefoh/57a0ef76ab63a974105b9f0fbcb8475b/raw/d49e3d8104992ff6cc6742fbe91b0c642287837a/products.json'
-      )
-
-      this.SET_PRODUCTS(data)
+      // this.SET_PRODUCTS(data)
       this.product = this.$store.getters['products/getProductById'](
         parseInt(this.$route.params.id)
       )
@@ -349,6 +338,21 @@ export default {
 
   unmounted() {
     clearInterval(this.countDownInterval)
+  },
+  watch: {
+    '$route.params.id': {
+      immediate: true,
+      handler() {
+        this.product = this.$store.getters['products/getProductById'](
+          parseInt(this.$route.params.id)
+        )
+        if (!this.product) {
+          this.product = this.$store.getters['products/getProductById'](
+            parseInt(this.$route.params.id)
+          )
+        }
+      }
+    }
   }
 }
 </script>

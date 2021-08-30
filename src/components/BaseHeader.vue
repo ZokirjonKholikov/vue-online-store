@@ -82,7 +82,7 @@
                   >
                     <a href="" class="header__basket-link">
                       <img
-                        :src="require(`../assets/img/slider/${item.id}.jpg`)"
+                        :src="item.thumbnail"
                         class="header__basket-img"
                       />
                     </a>
