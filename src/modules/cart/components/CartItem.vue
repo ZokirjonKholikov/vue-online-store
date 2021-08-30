@@ -19,9 +19,9 @@
             {{ item.name }}
           </router-link>
         </h5>
-        <p>price: {{ formattedPrice(item.price) }}</p>
+        <p>Price: {{ formattedPrice(item.price) }}</p>
         <div class="cart__deatils-code">
-          quantity in cart :{{ item.quantity }}
+          Quantity in cart :{{ item.quantity }}
         </div>
       </div>
       <div class="cart__amounts">
@@ -40,7 +40,7 @@
             style="margin-right: 1rem"
             type="button"
           >
-            set to cart
+            Set to cart
           </button>
           <button
             type="button"
@@ -48,13 +48,13 @@
             class="cart__amounts-remove"
             style="cursor: pointer"
           >
-            remove
+            Remove
           </button>
         </div>
       </div>
       <div class="cart__total">
         <div class="cart__total-div">
-          <h6 class="cart__total-title">total</h6>
+          <h6 class="cart__total-title">Total</h6>
           {{ formattedPrice(item.price * item.quantity) }}
         </div>
       </div>

@@ -13,10 +13,10 @@
               <div class="cart__coupon-div">
                 <input
                   type="text"
-                  placeholder="enter coupon code"
+                  placeholder="Enter your coupon code..."
                   class="cart__coupon-input"
                 />
-                <button class="btn-coupon">apply</button>
+                <button class="btn-coupon">Apply</button>
               </div>
             </form>
           </div>
@@ -24,24 +24,24 @@
             <table>
               <tbody>
                 <tr>
-                  <th>subtotal</th>
+                  <th>Subtotal</th>
                   <td>{{ formattedPrice(subtotal) }}</td>
                 </tr>
                 <tr>
-                  <th>tax</th>
+                  <th>Tax</th>
                   <td>{{ formattedPrice(tax) }}</td>
                 </tr>
                 <tr>
-                  <th>discount</th>
+                  <th>Discount</th>
                   <td class="text-red">0</td>
                 </tr>
                 <tr>
-                  <th>total</th>
+                  <th>Total</th>
                   <td class="text-blue">{{ formattedPrice(total) }}</td>
                 </tr>
               </tbody>
             </table>
-            <button class="btn btn--brand btn--boxshadow">submit</button>
+            <button class="btn btn--brand btn--boxshadow">Submit</button>
           </div>
         </div>
       </div>
